@@ -4,9 +4,62 @@
         <title>Jars</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="google-signin-client_id" content="659258546186-trqon0vs2f627k9bcb24n5595grm56bb.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js" async defer></script>
     </head>
-    <body>
+    <body onLoad="onInit();">
         <div id="app">Jars</div>
-        <script src="./dist/app.js"></script>
-    </body>
+        <div class="g-signin2" onclick="signIn();"></div>
+        <div id="signin" onclick="signIn();"></div>
+        <a href="#" onclick="signOut();">Sign out</a>
+        <script src="app.js"></script>
+        <script>
+            function onInit() {
+                gapi.load('auth2', () => {
+                    gapi.auth2.init(
+                        // {
+                        //     client_id: '659258546186-trqon0vs2f627k9bcb24n5595grm56bb.apps.googleusercontent.com',
+                        //     fetch_basic_profile: false,
+                        //     scope: 'profile'
+                        // }
+                    ).then((auth2) => {
+                        if (auth2.isSignedIn.get()) {
+                            console.log('Already in');
+                            var googleUser = auth2.currentUser.get();
+                            onSuccess(googleUser);
+                        } else {
+                            console.log('ops!');
+                        }
+                    });
+                });
+            }
+
+            function signIn() {
+                const auth2 = gapi.auth2.getAuthInstance();
+                auth2.signIn()
+                    .then(onSuccess)
+                    .catch(onError);
+            }
+
+            function signOut() {
+                var auth2 = gapi.auth2.getAuthInstance();
+                auth2.signOut().then(function () {
+                  console.log('User signed out.');
+                });
+            }
+
+            function onSuccess(googleUser) {
+                console.log('onSignIn');
+                var profile = googleUser.getBasicProfile();
+                console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+                console.log('Name: ' + profile.getName());
+                console.log('Image URL: ' + profile.getImageUrl());
+                console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+            }
+
+            function onError(arg) {
+                console.log(arg);
+            }
+        </script>
+    </body>         
 </html>

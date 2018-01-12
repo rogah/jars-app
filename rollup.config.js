@@ -11,7 +11,10 @@ export default {
     },
     plugins: [
         resolve(),
-        babel({ exclude: 'node_modules/**' }),
+        babel({
+            exclude: 'node_modules/**',
+            plugins: ['external-helpers'],
+        }),
     ],
     external: ['lodash'],
 };
