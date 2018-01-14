@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "google-auth-library": "^1.0.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {
