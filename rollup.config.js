@@ -1,8 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
-import babel from 'rollup-plugin-babel';
 
 export default {
-    input: 'src/app.js',
+    input: 'app/index.js',
     output: {
         file: 'dist/app.js',
         format: 'umd',
@@ -11,7 +10,6 @@ export default {
     },
     plugins: [
         resolve(),
-        babel({ exclude: 'node_modules/**' }),
     ],
     external: ['lodash'],
 };
